@@ -36,6 +36,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createTask: Task;
   registerUser: User;
+  updateTask: Task;
   updateUser: User;
 };
 
@@ -47,6 +48,11 @@ export type MutationCreateTaskArgs = {
 
 export type MutationRegisterUserArgs = {
   input: RegisterInput;
+};
+
+
+export type MutationUpdateTaskArgs = {
+  input: UpdateTaskInput;
 };
 
 
@@ -119,6 +125,14 @@ export type Task = {
 };
 
 export type TaskFilterInput = {
+  status?: InputMaybe<Scalars['Int']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  urgency?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type UpdateTaskInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['Int']['input'];
   status?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   urgency?: InputMaybe<Scalars['Int']['input']>;
@@ -231,6 +245,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Task: ResolverTypeWrapper<Task>;
   TaskFilterInput: TaskFilterInput;
+  UpdateTaskInput: UpdateTaskInput;
   UpdateUserInput: UpdateUserInput;
   User: ResolverTypeWrapper<User>;
   UserFilterInput: UserFilterInput;
@@ -249,6 +264,7 @@ export type ResolversParentTypes = {
   String: Scalars['String']['output'];
   Task: Task;
   TaskFilterInput: TaskFilterInput;
+  UpdateTaskInput: UpdateTaskInput;
   UpdateUserInput: UpdateUserInput;
   User: User;
   UserFilterInput: UserFilterInput;
@@ -257,6 +273,7 @@ export type ResolversParentTypes = {
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createTask?: Resolver<ResolversTypes['Task'], ParentType, ContextType, RequireFields<MutationCreateTaskArgs, 'input'>>;
   registerUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
+  updateTask?: Resolver<ResolversTypes['Task'], ParentType, ContextType, RequireFields<MutationUpdateTaskArgs, 'input'>>;
   updateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input'>>;
 };
 
