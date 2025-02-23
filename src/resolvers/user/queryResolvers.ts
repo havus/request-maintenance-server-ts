@@ -1,6 +1,7 @@
 import { PostgresDataSource } from '../../config/typeorm';
 import { User } from '../../entity/User';
 import { QueryUserArgs, QueryUsersArgs } from '../../types/gql';
+import { mapUserFields } from '../../utils/user';
 
 export const queryResolvers = {
   user: async (_parent: any, { id }: QueryUserArgs) => {
@@ -11,11 +12,7 @@ export const queryResolvers = {
       throw new Error(`User with ID ${id} not found`);
     }
 
-    return {
-      ...user,
-      createdAt: user.createdAt.toISOString(),
-      updatedAt: user.updatedAt.toISOString(),
-    };
+    return mapUserFields(user);
   },
 
   users: async (_parent: any, { offset = 0, limit = 20, sortBy, filterBy }: QueryUsersArgs) => {
@@ -47,10 +44,6 @@ export const queryResolvers = {
 
     const users = await queryBuilder.getMany();
 
-    return users.map(user => ({
-      ...user,
-      createdAt: user.createdAt.toISOString(),
-      updatedAt: user.updatedAt.toISOString(),
-    }));
+    return users.map(user => (mapUserFields(user)));
   },
 };

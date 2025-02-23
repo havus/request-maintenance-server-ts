@@ -6,6 +6,8 @@ import {
   MutationUpdateUserArgs,
 } from '../../types/gql';
 
+import { mapUserFields } from '../../utils/user';
+
 export const mutationResolvers = {
   registerUser: async (_parent: any, { input }: MutationRegisterUserArgs) => {
     const { firstName, lastName, email, password } = input;
@@ -26,14 +28,7 @@ export const mutationResolvers = {
 
     await userRepository.save(newUser);
 
-    return {
-      id: newUser.id,
-      firstName: newUser.firstName,
-      lastName: newUser.lastName,
-      email: newUser.email,
-      createdAt: newUser.createdAt.toISOString(),
-      updatedAt: newUser.updatedAt.toISOString(),
-    };
+    return mapUserFields(newUser);
   },
 
   updateUser: async (_parent: any, { input }: MutationUpdateUserArgs) => {
@@ -65,13 +60,6 @@ export const mutationResolvers = {
 
     await userRepository.save(existingUser);
 
-    return {
-      id: existingUser.id,
-      firstName: existingUser.firstName,
-      lastName: existingUser.lastName,
-      email: existingUser.email,
-      createdAt: existingUser.createdAt.toISOString(),
-      updatedAt: existingUser.updatedAt.toISOString(),
-    };
+    return mapUserFields(existingUser);
   },
 };
