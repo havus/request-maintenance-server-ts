@@ -1,28 +1,25 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
-@Entity()
+@Entity("users")
 export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column('varchar')
+  @Column('varchar', { name: 'first_name' })
   firstName!: string;
 
-  @Column('varchar')
+  @Column('varchar', { name: 'last_name' })
   lastName?: string | null;
-
-  @Column('int')
-  age!: number;
 
   @Column('varchar', { unique: true })
   email!: string;
 
-  @Column('varchar')
-  hash_password!: string;
+  @Column('varchar', { name: 'hash_password' })
+  hashPassword!: string;
 
-  @CreateDateColumn()
-  created_at!: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date;
 
-  @UpdateDateColumn()
-  updated_at!: Date;
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt!: Date;
 }

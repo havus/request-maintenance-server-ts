@@ -15,19 +15,15 @@ export class AddTableUser1740254498535 implements MigrationInterface {
             generationStrategy: 'increment',
           },
           {
-            name: 'firstName',
+            name: 'first_name',
             type: 'varchar',
             length: '255',
           },
           {
-            name: 'lastName',
+            name: 'last_name',
             type: 'varchar',
             length: '255',
             isNullable: true,
-          },
-          {
-            name: 'age',
-            type: 'int',
           },
           {
             name: 'email',
