@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --noEmit false",
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "migration:create": "tsx ./node_modules/typeorm/cli.js migration:create ./src/migration/$npm_config_name",
