@@ -1,7 +1,7 @@
 import { PostgresDataSource } from '../../config/typeorm';
 import { Task } from '../../entity/Task';
-import { taskUrgencyMapper, taskStatusMapper } from '../../utils/task';
-import { TaskStatus, TaskUrgency } from '../../types/task';
+import { mapTaskFields } from '../../utils/task';
+import { TaskStatus } from '../../types/task';
 import {
   MutationCreateTaskArgs,
   MutationUpdateTaskArgs,
@@ -20,13 +20,7 @@ export const mutationResolvers = {
 
     await taskRepository.save(newTask);
 
-    return {
-      ...newTask,
-      status: taskStatusMapper(newTask.status as TaskStatus),
-      urgency: taskUrgencyMapper(newTask.urgency as TaskUrgency),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    return mapTaskFields(newTask);
   },
 
   updateTask: async (_parent: any, { input }: MutationUpdateTaskArgs) => {
@@ -59,14 +53,6 @@ export const mutationResolvers = {
 
     await taskRepository.save(existingTask);
 
-    return {
-      id: existingTask.id,
-      title: existingTask.title,
-      description: existingTask.description,
-      status: taskStatusMapper(existingTask.status as TaskStatus),
-      urgency: taskUrgencyMapper(existingTask.urgency as TaskUrgency),
-      createdAt: existingTask.createdAt.toISOString(),
-      updatedAt: existingTask.updatedAt.toISOString(),
-    };
+    return mapTaskFields(existingTask);
   },
 };

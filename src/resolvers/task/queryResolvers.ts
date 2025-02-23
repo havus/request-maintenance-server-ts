@@ -1,8 +1,7 @@
 import { PostgresDataSource } from '../../config/typeorm';
 import { Task } from '../../entity/Task';
-import { taskUrgencyMapper, taskStatusMapper } from '../../utils/task';
+import { mapTaskFields } from '../../utils/task';
 import { QueryTaskArgs, QueryTasksArgs } from '../../types/gql';
-import { TaskStatus, TaskUrgency } from '../../types/task';
 
 export const queryResolvers = {
   task: async (_parent: any, { id }: QueryTaskArgs) => {
@@ -13,15 +12,7 @@ export const queryResolvers = {
       throw new Error(`Task with ID ${id} not found`);
     }
 
-    return {
-      ...task,
-      status: taskStatusMapper(task.status as TaskStatus),
-      urgency: taskUrgencyMapper(task.urgency as TaskUrgency),
-      lastUrgencyUpdatedAt: task.lastUrgencyUpdatedAt?.toISOString(),
-      resolvedAt: task.resolvedAt?.toISOString(),
-      createdAt: task.createdAt.toISOString(),
-      updatedAt: task.updatedAt.toISOString(),
-    };
+    return mapTaskFields(task);
   },
 
   tasks: async (_parent: any, { offset = 0, limit = 20, sortBy, filterBy }: QueryTasksArgs) => {
@@ -53,14 +44,6 @@ export const queryResolvers = {
 
     const tasks = await queryBuilder.getMany();
 
-    return tasks.map(task => ({
-      ...task,
-      status: taskStatusMapper(task.status as TaskStatus),
-      urgency: taskUrgencyMapper(task.urgency as TaskUrgency),
-      lastUrgencyUpdatedAt: task.lastUrgencyUpdatedAt?.toISOString(),
-      resolvedAt: task.resolvedAt?.toISOString(),
-      createdAt: task.createdAt.toISOString(),
-      updatedAt: task.updatedAt.toISOString(),
-    }));
+    return tasks.map(task => (mapTaskFields(task)));
   },
 };
