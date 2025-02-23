@@ -10,6 +10,7 @@ import { typeDefs } from './schema';
 import { resolvers } from './resolvers';
 import { GraphQLContext } from './types/context';
 import { PostgresDataSource } from './config/typeorm';
+import './cron';
 
 const app = express();
 const port = process.env.PORT;
