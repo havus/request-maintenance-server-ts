@@ -35,4 +35,43 @@ export const mutationResolvers = {
       updatedAt: newUser.updatedAt.toISOString(),
     };
   },
+
+  updateUser: async (_parent: any, { input }: MutationUpdateUserArgs) => {
+    const { id, firstName, lastName, email, password } = input;
+
+    const userRepository = PostgresDataSource.getRepository(User);
+    const existingUser = await userRepository.findOneBy({ id: Number(id) });
+
+    if (!existingUser) {
+      throw new Error(`User with ID ${id} not found`);
+    }
+
+    if (firstName) existingUser.firstName = firstName;
+    if (lastName !== undefined) existingUser.lastName = lastName; // to delete last name
+    if (email && email !== existingUser.email) {
+      const existingUserEmail = await userRepository.findOneBy({ email });
+
+      if (existingUserEmail) {
+        throw new Error('Email already in use');
+      }
+
+      existingUser.email = email;
+    }
+
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      existingUser.hashPassword = hashedPassword;
+    }
+
+    await userRepository.save(existingUser);
+
+    return {
+      id: existingUser.id,
+      firstName: existingUser.firstName,
+      lastName: existingUser.lastName,
+      email: existingUser.email,
+      createdAt: existingUser.createdAt.toISOString(),
+      updatedAt: existingUser.updatedAt.toISOString(),
+    };
+  },
 };

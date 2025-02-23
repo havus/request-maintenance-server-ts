@@ -7,6 +7,7 @@ export const typeDefs = `
 
   type Mutation {
     registerUser(input: RegisterInput!): User!
+    updateUser(input: UpdateUserInput!): User!
   }
 
   type User {
@@ -39,5 +40,13 @@ export const typeDefs = `
     lastName: String
     email: String!
     password: String!
+  }
+
+  input UpdateUserInput {
+    id: ID!
+    firstName: String
+    lastName: String
+    email: String
+    password: String
   }
 `;
