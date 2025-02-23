@@ -53,7 +53,7 @@ export const mutationResolvers = {
       }
     };
 
-    if (urgency !== undefined) {
+    if (urgency !== undefined && urgency !== existingTask.urgency) {
       existingTask.urgency = Number(urgency);
       existingTask.lastUrgencyUpdatedAt = new Date();
     }
