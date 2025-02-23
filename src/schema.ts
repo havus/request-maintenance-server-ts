@@ -75,7 +75,6 @@ export const typeDefs = `
   input CreateTaskInput {
     title: String!
     description: String
-    status: Int
     urgency: Int
   }
 

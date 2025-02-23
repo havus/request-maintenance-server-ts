@@ -27,7 +27,6 @@ export type Scalars = {
 
 export type CreateTaskInput = {
   description?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<Scalars['Int']['input']>;
   title: Scalars['String']['input'];
   urgency?: InputMaybe<Scalars['Int']['input']>;
 };

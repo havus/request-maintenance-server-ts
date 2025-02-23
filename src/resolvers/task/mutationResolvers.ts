@@ -9,7 +9,7 @@ import {
 
 export const mutationResolvers = {
   createTask: async (_parent: any, { input }: MutationCreateTaskArgs) => {
-    const { title, description, urgency, status } = input;
+    const { title, description, urgency } = input;
 
     const taskRepository = PostgresDataSource.getRepository(Task);
 
@@ -17,7 +17,6 @@ export const mutationResolvers = {
     newTask.title = title;
     newTask.description = description;
     newTask.urgency = Number(urgency || 0);
-    newTask.status = Number(status || 0);
 
     await taskRepository.save(newTask);
 
