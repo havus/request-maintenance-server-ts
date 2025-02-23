@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class AddTableUser1740254498535 implements MigrationInterface {
+export class AddTableTasks1740316989571 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users',
+        name: 'tasks',
         columns: [
           {
             name: 'id',
@@ -15,26 +15,24 @@ export class AddTableUser1740254498535 implements MigrationInterface {
             generationStrategy: 'increment',
           },
           {
-            name: 'first_name',
+            name: 'title',
             type: 'varchar',
             length: '255',
           },
           {
-            name: 'last_name',
-            type: 'varchar',
-            length: '255',
+            name: 'description',
+            type: 'text',
             isNullable: true,
           },
           {
-            name: 'email',
-            type: 'varchar',
-            length: '255',
-            isUnique: true,
+            name: 'status',
+            type: 'int',
+            default: 0,
           },
           {
-            name: 'hash_password',
-            type: 'varchar',
-            length: '255',
+            name: 'urgency',
+            type: 'int',
+            default: 0,
           },
           {
             name: 'created_at',
@@ -47,12 +45,18 @@ export class AddTableUser1740254498535 implements MigrationInterface {
             default: 'CURRENT_TIMESTAMP',
             onUpdate: 'CURRENT_TIMESTAMP',
           },
+          {
+            name: 'resolved_at',
+            type: 'timestamp',
+            isNullable: true,
+          },
         ],
       })
-    );
+    )
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users');
+    await queryRunner.dropTable('tasks');
   }
+
 }
