@@ -2,6 +2,7 @@ import cron from 'node-cron';
 import { PostgresDataSource } from '../config/typeorm';
 import { Task } from '../entity/Task';
 import { TaskUrgency, TaskStatus } from '../types/task';
+import { In } from "typeorm";
 
 // runs every hour
 cron.schedule('0 * * * *', async () => {
@@ -10,6 +11,7 @@ cron.schedule('0 * * * *', async () => {
   const tasks = await taskRepository.find({
     where: {
       status: TaskStatus.Open,
+      urgency: In([TaskUrgency.LessUrgent, TaskUrgency.Urgent]),
     },
   });
 
