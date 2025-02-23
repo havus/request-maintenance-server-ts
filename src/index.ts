@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express from 'express';
 import 'dotenv/config';
 import { ApolloServer } from '@apollo/server';
@@ -8,6 +9,7 @@ import cors from 'cors';
 import { typeDefs } from './schema';
 import { resolvers } from './resolvers';
 import { GraphQLContext } from './types/context';
+import { PostgresDataSource } from './config/typeorm';
 
 const app = express();
 const port = process.env.PORT;
@@ -20,6 +22,14 @@ const server = new ApolloServer<GraphQLContext>({
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 await server.start();
+
+PostgresDataSource.initialize()
+  .then(() => {
+    console.log('Data Source has been initialized!');
+  })
+  .catch((error: any) => {
+    console.error('Error during Data Source initialization:', error);
+  });
 
 app.use(
   '/graphql',

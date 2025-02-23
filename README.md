@@ -38,6 +38,30 @@ This is a simple Express.js application written in TypeScript.
 
 
 
+## Migration Scripts
+
+### 1. `migration:create`
+Creates a new migration file. This script creates a new migration file in the src/migration directory. The file will be named based on the value provided for <migration_name>
+```bash
+npm run migration:create --name=<migration_name>
+```
+
+### 2. `migration:show`
+Shows the list of all migrations and their status. This script shows all the migrations that have been applied to the database, as well as any pending migrations that haven't been applied yet.
+It uses the TypeORM configuration file located at ./src/config/typeorm.ts for connecting to the database.
+```bash
+npm run migration:show
+```
+
+### 3. `migration:run`
+Runs pending migrations to update the database schema. This script runs all pending migrations that haven't been applied to the database. It ensures your database schema is in sync with your TypeORM entities.
+The migration:run script will use the TypeORM configuration file located at ./src/config/typeorm.ts for connecting to the database and applying the migrations.
+```bash
+npm run migration:run
+```
+
+
+
 ## Running the Application
 
 ### Development Mode (with hot-reloading)
