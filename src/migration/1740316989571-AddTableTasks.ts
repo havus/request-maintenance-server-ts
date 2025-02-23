@@ -35,6 +35,16 @@ export class AddTableTasks1740316989571 implements MigrationInterface {
             default: 0,
           },
           {
+            name: 'resolved_at',
+            type: 'timestamp',
+            isNullable: true,
+          },
+          {
+            name: 'last_urgency_updated_at',
+            type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP',
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
@@ -44,11 +54,6 @@ export class AddTableTasks1740316989571 implements MigrationInterface {
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
             onUpdate: 'CURRENT_TIMESTAMP',
-          },
-          {
-            name: 'resolved_at',
-            type: 'timestamp',
-            isNullable: true,
           },
         ],
       })

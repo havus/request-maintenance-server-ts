@@ -17,6 +17,8 @@ export const queryResolvers = {
       ...task,
       status: taskStatusMapper(task.status as TaskStatus),
       urgency: taskUrgencyMapper(task.urgency as TaskUrgency),
+      lastUrgencyUpdatedAt: task.lastUrgencyUpdatedAt?.toISOString(),
+      resolvedAt: task.resolvedAt?.toISOString(),
       createdAt: task.createdAt.toISOString(),
       updatedAt: task.updatedAt.toISOString(),
     };
@@ -42,7 +44,6 @@ export const queryResolvers = {
     if (sortBy) {
       queryBuilder.orderBy(`task.${sortBy.field}`, sortBy.direction);
     }
-
     if (offset) {
       queryBuilder.skip(offset);
     }
@@ -56,6 +57,8 @@ export const queryResolvers = {
       ...task,
       status: taskStatusMapper(task.status as TaskStatus),
       urgency: taskUrgencyMapper(task.urgency as TaskUrgency),
+      lastUrgencyUpdatedAt: task.lastUrgencyUpdatedAt?.toISOString(),
+      resolvedAt: task.resolvedAt?.toISOString(),
       createdAt: task.createdAt.toISOString(),
       updatedAt: task.updatedAt.toISOString(),
     }));

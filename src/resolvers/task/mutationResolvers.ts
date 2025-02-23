@@ -43,8 +43,20 @@ export const mutationResolvers = {
 
     if (title) existingTask.title = title;
     if (description !== undefined) existingTask.description = description;
-    if (status !== undefined) existingTask.status = Number(status);
-    if (urgency !== undefined) existingTask.urgency = Number(urgency);
+
+    if (status !== undefined) {
+      existingTask.status = Number(status)
+      if (status === TaskStatus.Resolved) {
+        existingTask.resolvedAt = new Date();
+      } else {
+        existingTask.resolvedAt = null;
+      }
+    };
+
+    if (urgency !== undefined) {
+      existingTask.urgency = Number(urgency);
+      existingTask.lastUrgencyUpdatedAt = new Date();
+    }
 
     await taskRepository.save(existingTask);
 

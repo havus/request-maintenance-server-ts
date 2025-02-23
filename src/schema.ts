@@ -69,6 +69,7 @@ export const typeDefs = `
     resolvedAt: String
     createdAt: String!
     updatedAt: String!
+    lastUrgencyUpdatedAt: String!
   }
 
   input CreateTaskInput {

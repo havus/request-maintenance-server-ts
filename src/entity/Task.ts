@@ -25,7 +25,10 @@ export class Task extends BaseEntity {
   urgency!: Number;
 
   @Column('timestamp', { name: 'resolved_at' })
-  resolvedAt?: Date;
+  resolvedAt?: Date | null;
+
+  @Column('timestamp', { name: 'last_urgency_updated_at' })
+  lastUrgencyUpdatedAt?: Date;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
