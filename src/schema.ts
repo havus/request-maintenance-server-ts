@@ -1,13 +1,19 @@
 export const typeDefs = `
   type Query {
     hello: String
+
     user(id: ID!): User
-    users(offset: Int, limit: Int, sortBy: UsersSortInput, filterBy: UserFilterInput): [User]
+    users(offset: Int, limit: Int, sortBy: SortInput, filterBy: UserFilterInput): [User]
+
+    task(id: ID!): Task
+    tasks(offset: Int, limit: Int, sortBy: SortInput, filterBy: TaskFilterInput): [Task]
   }
 
   type Mutation {
     registerUser(input: RegisterInput!): User!
     updateUser(input: UpdateUserInput!): User!
+
+    createTask(input: CreateTaskInput!): Task!
   }
 
   type User {
@@ -19,20 +25,20 @@ export const typeDefs = `
     updatedAt: String!
   }
 
-  input UserFilterInput {
-    firstName: String
-    lastName: String
-    email: String
-  }
-
   enum SortDirection {
     ASC
     DESC
   }
 
-  input UsersSortInput {
+  input SortInput {
     field: String!
     direction: SortDirection!
+  }
+
+  input UserFilterInput {
+    firstName: String
+    lastName: String
+    email: String
   }
 
   input RegisterInput {
@@ -48,5 +54,32 @@ export const typeDefs = `
     lastName: String
     email: String
     password: String
+  }
+
+
+
+
+  type Task {
+    id: ID!
+    title: String!
+    description: String
+    status: String!
+    urgency: String!
+    resolvedAt: String
+    createdAt: String!
+    updatedAt: String!
+  }
+
+  input CreateTaskInput {
+    title: String!
+    description: String
+    status: Int
+    urgency: Int
+  }
+
+  input TaskFilterInput {
+    title: String
+    status: Int
+    urgency: Int
   }
 `;
