@@ -1,7 +1,7 @@
-import { PostgresDataSource } from '../../config/typeorm';
-import { User } from '../../entity/User';
-import { QueryUserArgs, QueryUsersArgs } from '../../types/gql';
-import { mapUserFields } from '../../utils/user';
+import { PostgresDataSource } from '@/config/typeorm';
+import { User } from '@/entity/User';
+import { QueryUserArgs, QueryUsersArgs } from '@/types/gql';
+import { mapUserFields } from '@/utils/user';
 
 export const queryResolvers = {
   user: async (_parent: any, { id }: QueryUserArgs) => {

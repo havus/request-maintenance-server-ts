@@ -1,11 +1,11 @@
-import { PostgresDataSource } from '../../config/typeorm';
-import { Task } from '../../entity/Task';
-import { mapTaskFields } from '../../utils/task';
-import { TaskStatus } from '../../types/task';
+import { PostgresDataSource } from '@/config/typeorm';
+import { Task } from '@/entity/Task';
+import { mapTaskFields } from '@/utils/task';
+import { TaskStatus } from '@/types/task';
 import {
   MutationCreateTaskArgs,
   MutationUpdateTaskArgs,
-} from '../../types/gql';
+} from '@/types/gql';
 
 export const mutationResolvers = {
   createTask: async (_parent: any, { input }: MutationCreateTaskArgs) => {

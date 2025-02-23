@@ -1,5 +1,5 @@
-import { Task } from '../entity/Task';
-import { TaskUrgency, TaskStatus } from '../types/task';
+import { Task } from '@/entity/Task';
+import { TaskUrgency, TaskStatus } from '@/types/task';
 
 export const taskUrgencyMapper = (urgency: TaskUrgency): string => {
   switch (urgency) {

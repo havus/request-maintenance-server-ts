@@ -1,7 +1,7 @@
-import { PostgresDataSource } from '../../config/typeorm';
-import { Task } from '../../entity/Task';
-import { mapTaskFields } from '../../utils/task';
-import { QueryTaskArgs, QueryTasksArgs } from '../../types/gql';
+import { PostgresDataSource } from '@/config/typeorm';
+import { Task } from '@/entity/Task';
+import { mapTaskFields } from '@/utils/task';
+import { QueryTaskArgs, QueryTasksArgs } from '@/types/gql';
 
 export const queryResolvers = {
   task: async (_parent: any, { id }: QueryTaskArgs) => {

@@ -1,12 +1,12 @@
 import bcrypt from 'bcryptjs';
-import { PostgresDataSource } from '../../config/typeorm';
-import { User } from '../../entity/User';
+import { PostgresDataSource } from '@/config/typeorm';
+import { User } from '@/entity/User';
 import {
   MutationRegisterUserArgs,
   MutationUpdateUserArgs,
-} from '../../types/gql';
+} from '@/types/gql';
 
-import { mapUserFields } from '../../utils/user';
+import { mapUserFields } from '@/utils/user';
 
 export const mutationResolvers = {
   registerUser: async (_parent: any, { input }: MutationRegisterUserArgs) => {
