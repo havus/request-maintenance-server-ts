@@ -67,4 +67,4 @@ await new Promise<void>((resolve) =>
   httpServer.listen({ port }, resolve),
 );
 
-console.log(`🚀 Server ready at http://localhost:${port}/graphql`);
+console.log(`🚀 Server ready at http://0.0.0.0:${port}/graphql`);

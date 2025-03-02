@@ -6,9 +6,7 @@ import {
   MutationCreateTaskArgs,
   MutationUpdateTaskArgs,
 } from '@/types/gql';
-import { RedisPubSub } from 'graphql-redis-subscriptions';
-
-const pubsub = new RedisPubSub();
+import Pubsub from '@/config/pubsub';
 
 export const mutationResolvers = {
   createTask: async (_parent: any, { input }: MutationCreateTaskArgs) => {
@@ -28,7 +26,7 @@ export const mutationResolvers = {
 
     await taskRepository.save(newTask);
 
-    pubsub.publish('TASK_CREATED', {
+    Pubsub.publish('TASK_CREATED', {
       taskCreated: newTask,
     });
 
@@ -65,7 +63,7 @@ export const mutationResolvers = {
 
     await taskRepository.save(existingTask);
 
-    pubsub.publish('TASK_UPDATED', {
+    Pubsub.publish('TASK_UPDATED', {
       taskUpdated: existingTask,
     });
 

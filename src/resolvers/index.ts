@@ -3,9 +3,7 @@ import { queryResolvers as taskQueryResolvers } from './task/queryResolvers';
 
 import { mutationResolvers as userMutationResolvers } from './user/mutationResolvers';
 import { mutationResolvers as taskMutationResolvers } from './task/mutationResolvers';
-import { RedisPubSub } from 'graphql-redis-subscriptions';
-
-const pubsub = new RedisPubSub();
+import Pubsub from '@/config/pubsub';
 
 export const resolvers = {
   Query: {
@@ -14,10 +12,10 @@ export const resolvers = {
   },
   Subscription: {
     taskCreated: {
-      subscribe: () => pubsub.asyncIterator('TASK_CREATED'),
+      subscribe: () => Pubsub.asyncIterator('TASK_CREATED'),
     },
     taskUpdated: {
-      subscribe: () => pubsub.asyncIterator('TASK_UPDATED'),
+      subscribe: () => Pubsub.asyncIterator('TASK_UPDATED'),
     },
   },
   Mutation: {
