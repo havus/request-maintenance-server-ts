@@ -17,6 +17,11 @@ export const typeDefs = `
     updateTask(input: UpdateTaskInput!): Task!
   }
 
+  type Subscription {
+    taskCreated: Task
+    taskUpdated: Task
+  }
+
   type User {
     id: ID!
     firstName: String!
@@ -76,6 +81,7 @@ export const typeDefs = `
     title: String!
     description: String
     urgency: Int
+    status: Int
   }
 
   input TaskFilterInput {

@@ -6,10 +6,13 @@ import {
   MutationCreateTaskArgs,
   MutationUpdateTaskArgs,
 } from '@/types/gql';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
+
+const pubsub = new RedisPubSub();
 
 export const mutationResolvers = {
   createTask: async (_parent: any, { input }: MutationCreateTaskArgs) => {
-    const { title, description, urgency } = input;
+    const { title, description, urgency, status } = input;
 
     const taskRepository = PostgresDataSource.getRepository(Task);
 
@@ -18,7 +21,16 @@ export const mutationResolvers = {
     newTask.description = description;
     newTask.urgency = Number(urgency || 0);
 
+    if (status === TaskStatus.Resolved) {
+      newTask.status = status;
+      newTask.resolvedAt = new Date();
+    }
+
     await taskRepository.save(newTask);
+
+    pubsub.publish('TASK_CREATED', {
+      taskCreated: newTask,
+    });
 
     return mapTaskFields(newTask);
   },
@@ -52,6 +64,10 @@ export const mutationResolvers = {
     }
 
     await taskRepository.save(existingTask);
+
+    pubsub.publish('TASK_UPDATED', {
+      taskUpdated: existingTask,
+    });
 
     return mapTaskFields(existingTask);
   },

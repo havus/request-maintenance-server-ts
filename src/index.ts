@@ -1,26 +1,48 @@
 import 'reflect-metadata';
 import express from 'express';
 import 'dotenv/config';
-import { ApolloServer } from '@apollo/server';
+import { ApolloServer, } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import http from 'http';
 import cors from 'cors';
 import { typeDefs } from './schema';
 import { resolvers } from './resolvers';
-import { GraphQLContext } from './types/context';
 import { PostgresDataSource } from './config/typeorm';
+import { WebSocketServer } from "ws";
+import { useServer } from 'graphql-ws/use/ws';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import './cron';
 
 const app = express();
 const port = process.env.PORT;
 const httpServer = http.createServer(app);
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-const server = new ApolloServer<GraphQLContext>({
-  typeDefs,
-  resolvers,
+const wsServer = new WebSocketServer({
+  server: httpServer,
+  path: '/subscriptions',
+});
+
+const serverCleanup = useServer({ schema }, wsServer);
+
+const server = new ApolloServer({
+  schema,
   // https://www.apollographql.com/docs/apollo-server/api/plugin/drain-http-server/
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  plugins: [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+
+    // Proper shutdown for the WebSocket server.
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await serverCleanup.dispose();
+          },
+        };
+      },
+    },
+  ],
 });
 await server.start();
 

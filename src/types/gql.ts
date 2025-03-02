@@ -27,6 +27,7 @@ export type Scalars = {
 
 export type CreateTaskInput = {
   description?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['Int']['input']>;
   title: Scalars['String']['input'];
   urgency?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -109,6 +110,12 @@ export enum SortDirection {
 export type SortInput = {
   direction: SortDirection;
   field: Scalars['String']['input'];
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  taskCreated?: Maybe<Task>;
+  taskUpdated?: Maybe<Task>;
 };
 
 export type Task = {
@@ -243,6 +250,7 @@ export type ResolversTypes = {
   SortDirection: SortDirection;
   SortInput: SortInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  Subscription: ResolverTypeWrapper<{}>;
   Task: ResolverTypeWrapper<Task>;
   TaskFilterInput: TaskFilterInput;
   UpdateTaskInput: UpdateTaskInput;
@@ -262,6 +270,7 @@ export type ResolversParentTypes = {
   RegisterInput: RegisterInput;
   SortInput: SortInput;
   String: Scalars['String']['output'];
+  Subscription: {};
   Task: Task;
   TaskFilterInput: TaskFilterInput;
   UpdateTaskInput: UpdateTaskInput;
@@ -283,6 +292,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   tasks?: Resolver<Maybe<Array<Maybe<ResolversTypes['Task']>>>, ParentType, ContextType, Partial<QueryTasksArgs>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, Partial<QueryUsersArgs>>;
+};
+
+export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  taskCreated?: SubscriptionResolver<Maybe<ResolversTypes['Task']>, "taskCreated", ParentType, ContextType>;
+  taskUpdated?: SubscriptionResolver<Maybe<ResolversTypes['Task']>, "taskUpdated", ParentType, ContextType>;
 };
 
 export type TaskResolvers<ContextType = any, ParentType extends ResolversParentTypes['Task'] = ResolversParentTypes['Task']> = {
@@ -311,6 +325,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
   Task?: TaskResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
