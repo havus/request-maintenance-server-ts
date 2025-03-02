@@ -4,7 +4,7 @@ export enum TaskStatus {
 }
 
 export enum TaskUrgency {
-  NoneUrgent = 0,
+  NonUrgent = 0,
   LessUrgent = 1,
   Urgent = 2,
   Emergency = 3,
